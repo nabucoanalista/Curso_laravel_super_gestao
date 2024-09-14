@@ -19,14 +19,32 @@ Route::get('/', 'PrincipalController@principal')->name('site.index')->middleware
 Route::get('/sobre-nos', 'SobreNosController@sobreNos')->name('site.sobrenos');
 Route::get('/contato', 'ContatoController@contato')->name('site.contato');
 Route::post('/contato', 'ContatoController@contato')->name('site.contato');
-Route::get('/login', function(){return 'Login';})->name('site.login');
+Route::get('/login/{erro?}', 'LoginController@index')->name('site.login');
+Route::post('/login', 'LoginController@autenticar')->name('site.login');
 
 Route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(function() {
-    Route::get('/clientes', function(){return 'Clientes';})->name('app.clientes');
+    Route::get('/home', 'HomeController@index')->name('app.home');
 
-    Route::get('/fornecedores', 'FornecedorController@index')->name('app.fornecedores');
+    Route::get('/sair', 'LoginController@sair')->name('app.sair');
 
-    Route::get('/produtos', function(){return 'produtos';})->name('app.produtos');
+    Route::get('/cliente', 'ClienteController@index')->name('app.cliente');
+
+    Route::get('/fornecedor', 'FornecedorController@index')->name('app.fornecedor');
+
+    Route::post('/fornecedor/listar', 'FornecedorController@listar')->name('app.fornecedor.listar'); // essa rota é via post pois é uma requisição de um formulário. Se fosse via get, seria uma requisição de um link. para saber se é get ou post, olhar no formulário do arquivo listar.blade.php
+
+    Route::get('/fornecedor/listar', 'FornecedorController@listar')->name('app.fornecedor.listar');
+
+    Route::get('/fornecedor/adicionar', 'FornecedorController@adicionar')->name('app.fornecedor.adicionar'); // essa rota é via get pois é uma requisição de um link. Se fosse via post, seria uma requisição de um formulário. para saber se é get ou post, olhar no formulário do arquivo adicionar.blade.php
+
+    Route::post('/fornecedor/adicionar', 'FornecedorController@adicionar')->name('app.fornecedor.adicionar');
+
+    Route::get('/fornecedor/editar/{id}/{msg?}', 'FornecedorController@editar')->name('app.fornecedor.editar');
+
+    Route::get('/fornecedor/excluir/{id}', 'FornecedorController@excluir')->name('app.fornecedor.excluir');
+
+    //produto
+    Route::resource('produto', 'ProdutoController');
 });
 
 Route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('site.teste');
