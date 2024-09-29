@@ -7,7 +7,6 @@ use App\Fornecedor;
 
 class FornecedorController extends Controller
 {
-
     public function index() {
         return view('app.fornecedor.index');
     }
@@ -19,15 +18,17 @@ class FornecedorController extends Controller
             ->where('uf', 'like', '%'.$request->input('uf').'%')
             ->where('email', 'like', '%'.$request->input('email').'%')
             ->paginate(5);
-        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores, 'request' => $request->all()]);
+
+        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores, 'request' => $request->all() ]);
     }
 
     public function adicionar(Request $request) {
 
         $msg = '';
+        
         //inclusão
         if($request->input('_token') != '' && $request->input('id') == '') {
-            //validação
+            //validacao
             $regras = [
                 'nome' => 'required|min:3|max:40',
                 'site' => 'required',
@@ -36,12 +37,12 @@ class FornecedorController extends Controller
             ];
 
             $feedback = [
-                'required' => 'O campo :attribute é obrigatório',
+                'required' => 'O campo :attribute deve ser preenchido',
                 'nome.min' => 'O campo nome deve ter no mínimo 3 caracteres',
                 'nome.max' => 'O campo nome deve ter no máximo 40 caracteres',
                 'uf.min' => 'O campo uf deve ter no mínimo 2 caracteres',
                 'uf.max' => 'O campo uf deve ter no máximo 2 caracteres',
-                'email.email' => 'O campo email deve ser um email válido'
+                'email.email' => 'O campo e-mail não foi preenchido corretamente'
             ];
 
             $request->validate($regras, $feedback);
@@ -49,22 +50,21 @@ class FornecedorController extends Controller
             $fornecedor = new Fornecedor();
             $fornecedor->create($request->all());
 
-            //redirecionamento
+            //redirect
 
             //dados view
             $msg = 'Cadastro realizado com sucesso';
         }
 
         //edição
-        if($request->input('_token') != '' && $request->input('id') != ''){
+        if($request->input('_token') != '' && $request->input('id') != '') {
             $fornecedor = Fornecedor::find($request->input('id'));
             $update = $fornecedor->update($request->all());
-            //$msg = 'Cadastro atualizado com sucesso';
 
             if($update) {
-                $msg = 'Cadastro atualizado com sucesso';
+                $msg = 'Atualização realizada com sucesso';
             } else {
-                $msg = 'Erro ao atualizar o cadastro';
+                $msg = 'Erro ao tentar atualizar o registro';
             }
 
             return redirect()->route('app.fornecedor.editar', ['id' => $request->input('id'), 'msg' => $msg]);
@@ -74,18 +74,16 @@ class FornecedorController extends Controller
     }
 
     public function editar($id, $msg = '') {
-
+        
         $fornecedor = Fornecedor::find($id);
 
         return view('app.fornecedor.adicionar', ['fornecedor' => $fornecedor, 'msg' => $msg]);
     }
 
     public function excluir($id) {
-
         Fornecedor::find($id)->delete();
-
         //Fornecedor::find($id)->forceDelete();
 
-        return redirect()->route('app.fornecedor.listar');
+        return redirect()->route('app.fornecedor');
     }
 }

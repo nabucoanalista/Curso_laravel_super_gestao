@@ -3,7 +3,7 @@
 @section('titulo', 'Cliente')
 
 @section('conteudo')
-
+    
     <div class="conteudo-pagina">
 
         <div class="titulo-pagina-2">
@@ -20,7 +20,7 @@
         <div class="informacao-pagina">
             <div style="width: 30%; margin-left: auto; margin-right: auto;">
                 @component('app.cliente._components.form_create_edit')
-                @endcomponent
+                @endcomponent             
             </div>
         </div>
 

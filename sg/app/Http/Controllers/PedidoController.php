@@ -16,7 +16,7 @@ class PedidoController extends Controller
     public function index(Request $request)
     {
         $pedidos = Pedido::paginate(10);
-        return view('app.pedido.index', ['pedidos' => $pedidos, 'request' => $request->all()]);
+        return view('app.pedido.index', ['pedidos' => $pedidos, 'request' => $request->all()] );
     }
 
     /**

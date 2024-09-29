@@ -3,7 +3,7 @@
 @section('titulo', 'Produto')
 
 @section('conteudo')
-
+    
     <div class="conteudo-pagina">
 
         <div class="titulo-pagina-2">

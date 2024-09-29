@@ -21,10 +21,8 @@ class Item extends Model
         return $this->belongsToMany('App\Pedido', 'pedidos_produtos', 'produto_id', 'pedido_id');
 
         /*
-            1 - Model que representa a relação N:N em relação a Model atual
-            2 - É a tabela auxiliar que contém os registros de relacionamento
-            3 - Representa o nome da fk da tabela auxiliar que faz referência a Model atual
-            4 - Representa o nome da fk da tabela auxiliar que faz referência a Model que representa a relação N:N
+            3 - Representa o nome da FK da tabela mapeada pelo model na tabela de relacionamento
+            4 - Representa o nome da FK da tabela mapeada pelo model utilizado no relacionamento que estamos implementando
         */
     }
 }

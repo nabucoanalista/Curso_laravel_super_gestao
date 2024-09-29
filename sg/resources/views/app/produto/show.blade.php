@@ -3,11 +3,11 @@
 @section('titulo', 'Produto')
 
 @section('conteudo')
-
+    
     <div class="conteudo-pagina">
 
         <div class="titulo-pagina-2">
-            <p>Visualizar - Produto</p>
+            <p>Visualizar Produto</p>
         </div>
 
         <div class="menu">
@@ -34,7 +34,7 @@
                     </tr>
                     <tr>
                         <td>Peso:</td>
-                        <td>{{ $produto->peso }} Kg</td>
+                        <td>{{ $produto->peso }} kg</td>
                     </tr>
                     <tr>
                         <td>Unidade de Medida:</td>
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-
     </div>
 
 @endsection
+

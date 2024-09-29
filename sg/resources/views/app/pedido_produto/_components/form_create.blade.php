@@ -1,6 +1,5 @@
 <form method="post" action="{{ route('pedido-produto.store', ['pedido' => $pedido]) }}">
     @csrf
-
     <select name="produto_id">
         <option>-- Selecione um Produto --</option>
 

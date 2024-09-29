@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\MotivoContato;
 use Illuminate\Http\Request;
+use App\MotivoContato;
 
 class PrincipalController extends Controller
 {

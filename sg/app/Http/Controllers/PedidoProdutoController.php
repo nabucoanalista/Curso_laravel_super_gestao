@@ -27,7 +27,7 @@ class PedidoProdutoController extends Controller
     public function create(Pedido $pedido)
     {
         $produtos = Produto::all();
-        //$pedido->produtos;
+        //$pedido->produtos; //eager loading
         return view('app.pedido_produto.create', ['pedido' => $pedido, 'produtos' => $produtos]);
     }
 
@@ -46,7 +46,7 @@ class PedidoProdutoController extends Controller
 
         $feedback = [
             'produto_id.exists' => 'O produto informado não existe',
-            'required' => 'O campo :attribute é obrigatório'
+            'required' => 'O campo :attribute deve possuir um valor válido'
         ];
 
         $request->validate($regras, $feedback);
@@ -59,8 +59,17 @@ class PedidoProdutoController extends Controller
         $pedidoProduto->save();
         */
 
+        //$pedido->produtos //os registros do relacionamento
         /*
-        $pedido->produtos()->attach($request->get('produto_id'), ['quantidade' => $request->get('quantidade')]);
+        $pedido->produtos()->attach(
+            $request->get('produto_id'),
+            [
+                'quantidade' => $request->get('quantidade'),
+                'coluna_1' => '',
+                'coluna_2' => '',
+            ]
+        ); //objeto
+        //pedido_id
         */
 
         $pedido->produtos()->attach([
@@ -68,6 +77,7 @@ class PedidoProdutoController extends Controller
         ]);
 
         return redirect()->route('pedido-produto.create', ['pedido' => $pedido->id]);
+        
     }
 
     /**
@@ -107,17 +117,34 @@ class PedidoProdutoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int pedidoProduto $id
+     * @param  int  PedidoProduto $id
      * @return \Illuminate\Http\Response
      */
     //public function destroy(Pedido $pedido, Produto $produto)
     public function destroy(PedidoProduto $pedidoProduto, $pedido_id)
     {
-        //echo $pedido->id . ' - ' . $produto->id;
+        /*
+        print_r($pedido->getAttributes());
+        echo '<hr>';
+        print_r($produto->getAttributes());
+        */
 
+        //echo $pedido->id.' - '.$produto->id;
+
+        //convencional
+        /*
+        PedidoProduto::where([
+            'pedido_id' => $pedido->id,
+            'produto_id' => $produto->id
+        ])->delete();
+        */
+
+        //detach (delete pelo relacionamento)
         //$pedido->produtos()->detach($produto->id);
+        //produto_id
 
         $pedidoProduto->delete();
+        
         return redirect()->route('pedido-produto.create', ['pedido' => $pedido_id]);
     }
 }
